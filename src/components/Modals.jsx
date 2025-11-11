@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 
-const Modal = ({ id, title, inputan, onSubmit, btnText }) => {
+const Modal = ({ id, title, children, onSubmit, btnText }) => {
     return (
         <div
             className="modal fade"
@@ -24,7 +24,7 @@ const Modal = ({ id, title, inputan, onSubmit, btnText }) => {
                     </div>
                     <div className="modal-body">
                         <form onSubmit={onSubmit}>
-                            {inputan}
+                            {children}
                             <div className="modal-footer">
                                 <button type="submit" className="btn btn-primary">
                                     {btnText}

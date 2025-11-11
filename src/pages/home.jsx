@@ -25,7 +25,7 @@ const Home = () => {
             {/* Header */}
             <div className="jumbotron jumbotron-fluid bg-light p-4 rounded">
                 <div className="container">
-                    <h1 className="display-5 fw-bold">Muhamad Fitrah Ramadhan Effendi</h1>
+                    <h1 className="display-5 fw-bold">Manhwa List</h1>
                     <p className="lead">
                         Ini adalah project website manhwa sederhana menggunakan React, Express, dan Prisma.
                         Data akan tampil otomatis dari API backend.
@@ -34,7 +34,7 @@ const Home = () => {
             </div>
 
             {/* List Card */}
-            <div className="container d-flex flex-wrap gap-3 justify-content-start mt-4">
+            <div className="container d-flex flex-wrap gap-3 justify-content-center">
                 {manhwa.length === 0 ? (
                     <p>Loading data manhwa...</p>
                 ) : (

@@ -7,8 +7,8 @@ import axios from "axios";
 const DataSiswa = () => {
     const [manhwa, setManhwa] = useState([]);
     const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [year, setYear] = useState("");
+    const [desc, setDesc] = useState("");
+    const [coverImage, setCover] = useState("");
     const [editId, setEditId] = useState(null);
 
     useEffect(() => {
@@ -17,7 +17,7 @@ const DataSiswa = () => {
 
     const fetchData = () => {
         axios
-            .get("http://pblweb0301.cloud:3000/api/manhwa")
+            .get("http://pblweb0301.cloud:9000/api/manhwa")
             .then((response) => setManhwa(response.data))
             .catch((error) => console.log(error));
     };
@@ -25,38 +25,38 @@ const DataSiswa = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios
-            .post("http://pblweb0301.cloud:3000/api/manhwa", {
+            .post("http://pblweb0301.cloud:9000/api/manhwa", {
                 title: title,
-                description: description,
-                year: Number(year),
+                desc: desc,
+                coverImage: coverImage,
             })
             .then(() => {
                 setTitle("");
-                setDescription("");
-                setYear("");
+                setDesc("");
+                setCover("");
                 fetchData();
                 const modal = Modal.getInstance(document.getElementById("addModal"));
                 modal.hide();
             })
-            .catch((error) => console.log(error));
+            .catch((error) => console.log(error.response.data ||error));
     };
 
     const handleDelete = (id) => {
         axios
-            .delete(`http://pblweb0301.cloud:3000/api/manhwa/${id}`)
+            .delete(`http://pblweb0301.cloud:9000/api/manhwa/${id}`)
             .then(() => fetchData())
             .catch((error) => console.log(error));
     };
 
     const handleEdit = (id) => {
         axios
-            .get(`http://pblweb0301.cloud:3000/api/manhwa/s/?id=${id}`)
+            .get(`http://pblweb0301.cloud:9000/api/manhwa/s/?id=${id}`)
             .then((response) => {
                 const data = response.data;
                 setEditId(id);
                 setTitle(data.title);
-                setDescription(data.description);
-                setYear(data.year);
+                setDesc(data.desc);
+                setCover(data.coverImage);
 
                 // Tampilkan modal edit
                 const editModal = new Modal(document.getElementById("editModal"));
@@ -68,10 +68,10 @@ const DataSiswa = () => {
     const handleUpdate = (e) => {
         e.preventDefault();
         axios
-            .put(`http://pblweb0301.cloud:3000/api/manhwa/${editId}`, {
+            .put(`http://pblweb0301.cloud:9000/api/manhwa/${editId}`, {
                 title: title,
-                description: description,
-                year: Number(year),
+                desc: desc,
+                coverImage: coverImage,
             })
             .then(() => {
                 alert("Data berhasil diperbarui!");
@@ -84,7 +84,7 @@ const DataSiswa = () => {
 
     return (
         <div className="container mt-5">
-            <h2 className="text-center mb-4">Aplikasi Data Manhwa</h2>
+            <h2 className="text-center mb-4">Form Data Manhwa</h2>
 
             {/* Tombol Tambah Siswa */}
             <button
@@ -108,7 +108,49 @@ const DataSiswa = () => {
                 id="addModal"
                 title="Tambah Data Manhwa"
                 onSubmit={handleSubmit}
-                submitText="Simpan"
+                btnText="Simpan"
+            >
+                <div className="form-floating mb-3">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        required
+                    />
+                    <label>Title</label>
+                </div>
+
+                <div className="form-floating mb-3">
+                    <textarea
+                        className="form-control"
+                        placeholder="coverImage"
+                        value={coverImage}
+                        onChange={(e) => setCover(e.target.value)}
+                        required
+                    />
+                    <label>Cover Image</label>
+                </div>
+
+                <div className="form-floating mb-3">
+                    <textarea
+                        className="form-control"
+                        placeholder="Description"
+                        value={desc}
+                        onChange={(e) => setDesc(e.target.value)}
+                        required
+                    />
+                    <label>Description</label>
+                </div>
+            </Modals>
+
+            {/* Modal Edit */}
+            <Modals
+                id="editModal"
+                title="Edit Data Manhwa"
+                onSubmit={handleUpdate}
+                btnText="Simpan Perubahan"
             >
                 <div className="form-floating mb-3">
                     <input
@@ -124,65 +166,22 @@ const DataSiswa = () => {
 
                 <div className="form-floating mb-3">
                     <input
-                        type="number"
-                        className="form-control"
-                        placeholder="Year"
-                        value={year}
-                        onChange={(e) => setYear(e.target.value)}
-                        required
-                    />
-                    <label>Year</label>
-                </div>
-
-                <div className="form-floating mb-3">
-                    <textarea
-                        className="form-control"
-                        placeholder="Description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        required
-                    />
-                    <label>Description</label>
-                </div>
-            </Modals>
-
-            {/* Modal Edit */}
-            <Modals
-                id="editModal"
-                title="Edit Data Manhwa"
-                onSubmit={handleUpdate}
-                submitText="Simpan Perubahan"
-            >
-                <div className="form-floating mb-3">
-                    <input
                         type="text"
                         className="form-control"
-                        placeholder="Title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="coverImage"
+                        value={coverImage}
+                        onChange={(e) => setCover(e.target.value)}
                         required
                     />
-                    <label>Nama</label>
-                </div>
-
-                <div className="form-floating mb-3">
-                    <input
-                        type="number"
-                        className="form-control"
-                        placeholder="Year"
-                        value={year}
-                        onChange={(e) => setYear(e.target.value)}
-                        required
-                    />
-                    <label>Year</label>
+                    <label>Cover Image</label>
                 </div>
 
                 <div className="form-floating">
                     <textarea
                         className="form-control"
                         placeholder="Description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        value={desc}
+                        onChange={(e) => setDesc(e.target.value)}
                         required
                     />
                     <label>Description</label>
