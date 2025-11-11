@@ -3,6 +3,7 @@ import { Modal } from "bootstrap";
 import StudentTable from "../components/StudentTable";
 import Modals from "../components/Modals";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 const DataSiswa = () => {
     const [manhwa, setManhwa] = useState([]);
@@ -10,10 +11,27 @@ const DataSiswa = () => {
     const [desc, setDesc] = useState("");
     const [coverImage, setCover] = useState("");
     const [editId, setEditId] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
+
 
     useEffect(() => {
         fetchData();
     }, []);
+
+    useEffect(() => {
+        const delay = setTimeout(() => {
+            if (searchTerm.trim() === "") {
+                fetchData();
+            } else {
+                axios
+                    .get(`http://pblweb0301.cloud:9000/api/manhwa/s?title=${searchTerm}`)
+                    .then((res) => setManhwa(res.data))
+                    .catch((err) => console.log(err));
+            }
+        }, 500); // delay 0.5 detik
+
+        return () => clearTimeout(delay);
+    }, [searchTerm]);
 
     const fetchData = () => {
         axios
@@ -38,7 +56,7 @@ const DataSiswa = () => {
                 const modal = Modal.getInstance(document.getElementById("addModal"));
                 modal.hide();
             })
-            .catch((error) => console.log(error.response.data ||error));
+            .catch((error) => console.log(error.response.data || error));
     };
 
     const handleDelete = (id) => {
@@ -74,10 +92,12 @@ const DataSiswa = () => {
                 coverImage: coverImage,
             })
             .then(() => {
-                alert("Data berhasil diperbarui!");
                 fetchData();
                 const modal = Modal.getInstance(document.getElementById("editModal"));
                 modal.hide();
+
+                toast.success("Data berhasil diperbarui!", { position: "top-center", autoClose: 3000 });
+
             })
             .catch((error) => console.log(error));
     };
@@ -85,6 +105,14 @@ const DataSiswa = () => {
     return (
         <div className="container mt-5">
             <h2 className="text-center mb-4">Form Data Manhwa</h2>
+
+            <input
+                type="text"
+                className="form-control mb-3"
+                placeholder="Cari manhwa berdasarkan title..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
 
             {/* Tombol Tambah Siswa */}
             <button
@@ -187,6 +215,7 @@ const DataSiswa = () => {
                     <label>Description</label>
                 </div>
             </Modals>
+            <ToastContainer />
         </div>
     );
 };

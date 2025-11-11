@@ -1,5 +1,3 @@
-// import PropTypes from "prop-types";
-
 const Modal = ({ id, title, children, onSubmit, btnText }) => {
     return (
         <div
