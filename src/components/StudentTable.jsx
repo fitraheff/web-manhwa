@@ -10,7 +10,7 @@ const StudentTable = ({ manhwa, onDelete, onEdit }) => {
                         <th>ID</th>
                         <th>Title</th>
                         <th>Description</th>
-                        <th>Year</th>
+                        <th>Cover Image</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
