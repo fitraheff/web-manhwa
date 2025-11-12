@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "../components/Card";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Home = () => {
     // 🔹 State untuk data manhwa
@@ -13,7 +14,7 @@ const Home = () => {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get("http://pblweb0301.cloud:9000/api/manhwa");
+            const response = await axios.get(`${API_URL}/api/manhwa`);
             setManhwa(response.data);
         } catch (error) {
             console.error("Gagal memuat data manhwa:", error);

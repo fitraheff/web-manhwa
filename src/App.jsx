@@ -1,14 +1,14 @@
 import Navbar from "./components/Navbar"
 import AppRoutes from "./routes/AppRoutes"
-import { BrowserRouter as Routerrrr } from "react-router-dom"
+import { BrowserRouter as Router } from "react-router-dom"
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
   return (
-    <Routerrrr>
+    <Router>
       <Navbar />
       <AppRoutes />
-    </Routerrrr>
+    </Router>
   )
 }
 

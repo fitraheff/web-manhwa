@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Modal } from "bootstrap";
-import StudentTable from "../components/StudentTable";
+import StudentTable from "../components/Table";
 import Modals from "../components/Modals";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
-const DataSiswa = () => {
+const API_URL = import.meta.env.VITE_API_URL;
+
+const DataManhwa = () => {
     const [manhwa, setManhwa] = useState([]);
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
     const [coverImage, setCover] = useState("");
     const [editId, setEditId] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
-
 
     useEffect(() => {
         fetchData();
@@ -24,7 +25,7 @@ const DataSiswa = () => {
                 fetchData();
             } else {
                 axios
-                    .get(`http://pblweb0301.cloud:9000/api/manhwa/s?title=${searchTerm}`)
+                    .get(`${API_URL}/api/manhwa/s?title=${searchTerm}`)
                     .then((res) => setManhwa(res.data))
                     .catch((err) => console.log(err));
             }
@@ -35,7 +36,7 @@ const DataSiswa = () => {
 
     const fetchData = () => {
         axios
-            .get("http://pblweb0301.cloud:9000/api/manhwa")
+            .get(`${API_URL}/api/manhwa`)
             .then((response) => setManhwa(response.data))
             .catch((error) => console.log(error));
     };
@@ -43,7 +44,7 @@ const DataSiswa = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios
-            .post("http://pblweb0301.cloud:9000/api/manhwa", {
+            .post(`${API_URL}/api/manhwa`, {
                 title: title,
                 desc: desc,
                 coverImage: coverImage,
@@ -61,14 +62,14 @@ const DataSiswa = () => {
 
     const handleDelete = (id) => {
         axios
-            .delete(`http://pblweb0301.cloud:9000/api/manhwa/${id}`)
+            .delete(`${API_URL}/api/manhwa/${id}`)
             .then(() => fetchData())
             .catch((error) => console.log(error));
     };
 
     const handleEdit = (id) => {
         axios
-            .get(`http://pblweb0301.cloud:9000/api/manhwa/s/?id=${id}`)
+            .get(`${API_URL}/api/manhwa/s/?id=${id}`)
             .then((response) => {
                 const data = response.data;
                 setEditId(id);
@@ -86,7 +87,7 @@ const DataSiswa = () => {
     const handleUpdate = (e) => {
         e.preventDefault();
         axios
-            .put(`http://pblweb0301.cloud:9000/api/manhwa/${editId}`, {
+            .put(`${API_URL}/api/manhwa/${editId}`, {
                 title: title,
                 desc: desc,
                 coverImage: coverImage,
@@ -220,4 +221,4 @@ const DataSiswa = () => {
     );
 };
 
-export default DataSiswa;
+export default DataManhwa;
