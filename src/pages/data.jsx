@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Modal } from "bootstrap";
 import StudentTable from "../components/Table";
 import Modals from "../components/Modals";
-import axios from "axios";
+// import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import api from "../utils/axiosInstance";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -24,7 +25,7 @@ const DataManhwa = () => {
             if (searchTerm.trim() === "") {
                 fetchData();
             } else {
-                axios
+                api
                     .get(`${API_URL}/api/manhwa/s?title=${searchTerm}`)
                     .then((res) => setManhwa(res.data))
                     .catch((err) => console.log(err));
@@ -35,7 +36,7 @@ const DataManhwa = () => {
     }, [searchTerm]);
 
     const fetchData = () => {
-        axios
+        api
             .get(`${API_URL}/api/manhwa`)
             .then((response) => setManhwa(response.data))
             .catch((error) => console.log(error));
@@ -43,7 +44,7 @@ const DataManhwa = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios
+        api
             .post(`${API_URL}/api/manhwa`, {
                 title: title,
                 desc: desc,
@@ -61,14 +62,14 @@ const DataManhwa = () => {
     };
 
     const handleDelete = (id) => {
-        axios
+        api
             .delete(`${API_URL}/api/manhwa/${id}`)
             .then(() => fetchData())
             .catch((error) => console.log(error));
     };
 
     const handleEdit = (id) => {
-        axios
+        api
             .get(`${API_URL}/api/manhwa/s/?id=${id}`)
             .then((response) => {
                 const data = response.data;
@@ -86,7 +87,7 @@ const DataManhwa = () => {
 
     const handleUpdate = (e) => {
         e.preventDefault();
-        axios
+        api
             .put(`${API_URL}/api/manhwa/${editId}`, {
                 title: title,
                 desc: desc,
