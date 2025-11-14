@@ -4,7 +4,7 @@ import Form from '../components/Form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Auth } from '../context/AuthContext';
-
+import { Link } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -41,6 +41,9 @@ const LoginPage = () => {
             onSubmit={handleLogin}
             btnText="Login"
             isLoading={loading}
+            toLink="/register"
+            linkText="Register"
+            span="Don't have an account?"
         >
             <div className="mb-3">
                 <label htmlFor="email" className="form-label">Email</label>
@@ -64,6 +67,7 @@ const LoginPage = () => {
                     required
                 />
             </div>
+            {/* Register Link */}
         </Form>
     );
 };

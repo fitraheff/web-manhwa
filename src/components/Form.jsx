@@ -1,5 +1,6 @@
 // src/components/Form.jsx
-const Form = ({ title, onSubmit, children, btnText, isLoading = false }) => {
+import { Link } from "react-router-dom";
+const Form = ({ title, onSubmit, children, btnText, isLoading = false, toLink, span, linkText }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (onSubmit) onSubmit(e); // panggil parent handler
@@ -21,7 +22,7 @@ const Form = ({ title, onSubmit, children, btnText, isLoading = false }) => {
                                 {children}
                                 <button
                                     type="submit"
-                                    className="btn btn-primary btn-block mt-3"
+                                    className="btn btn-primary btn-block mt-3 col-12"
                                     disabled={isLoading}
                                 >
                                     {isLoading ? (
@@ -34,6 +35,10 @@ const Form = ({ title, onSubmit, children, btnText, isLoading = false }) => {
                                     )}
                                 </button>
                             </form>
+                            <div className="text-center mt-3">
+                                <span>{span}</span>
+                                <Link to={toLink}>{linkText}</Link>
+                            </div>
                         </div>
                     </div>
                 </div>

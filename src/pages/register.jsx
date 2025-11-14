@@ -42,6 +42,9 @@ const RegisterPage = () => {
                 onSubmit={handleRegister}
                 btnText="Register"
                 isLoading={loading}
+                toLink="/login"
+                linkText="Login"
+                span="Already have an account?"
             >
                 <div className="mb-3">
                     <label htmlFor="username" className="form-label">Username</label>
