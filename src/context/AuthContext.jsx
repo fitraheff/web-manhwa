@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { getUserRole, isAdmin as checkAdmin } from "../utils/jwt";
+import { getUserRole, getUserId, isAdmin as checkAdmin } from "../utils/jwt";
 
 const AuthContext = createContext();
 
@@ -7,15 +7,19 @@ export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem("token") || null);
     const [role, setRole] = useState(getUserRole());
     const [isAdmin, setIsAdmin] = useState(checkAdmin());
+    const [userId, setUserId] = useState(getUserId());
+
 
     useEffect(() => {
         if (token) {
             localStorage.setItem("token", token);
             setRole(getUserRole());
+            setUserId(getUserId());
             setIsAdmin(checkAdmin());
         } else {
             localStorage.removeItem("token");
             setRole(null);
+            setUserId(null);
             setIsAdmin(false);
         }
     }, [token]);
@@ -27,11 +31,10 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ token, setToken, role, isAdmin, logout }}>
+        <AuthContext.Provider value={{ token, setToken, role, userId, isAdmin, logout }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
-// ✅ Ganti nama, jangan mulai dengan "use" → warning hilang
 export const Auth = () => useContext(AuthContext);

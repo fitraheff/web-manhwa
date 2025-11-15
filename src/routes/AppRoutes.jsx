@@ -4,8 +4,9 @@ import Home from "../pages/home"
 import Data from "../pages/data"
 import LoginPage from "../pages/login"
 import RegisterPage from "../pages/register"
-import AdminRoute from "./AdminRoute";
-import GuestRoute from "./GuestRoute"
+import ProfilePage from "../pages/profile"
+import { AdminRoute, SuperadminRoute, GuestRoute, ProtectedRoute } from "./AdminRoute";
+import DataUser from "../pages/user"
 import '../App.css'
 
 const AppRoutes = () => {
@@ -40,6 +41,23 @@ const AppRoutes = () => {
                 }
             />
 
+            <Route
+                path="/user"
+                element={
+                    <SuperadminRoute>
+                        <DataUser />
+                    </SuperadminRoute>
+                }
+            />
+
+            <Route
+                path="/profile"
+                element={
+                    <ProtectedRoute>
+                        <ProfilePage />
+                    </ProtectedRoute>
+                }
+            />
         </Routes>
     )
 }

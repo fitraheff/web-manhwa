@@ -1,4 +1,5 @@
 // src/utils/jwt.js
+import { jwtDecode } from "jwt-decode";
 export const getUserRole = () => {
     const token = localStorage.getItem('token');
     if (!token) return null;
@@ -21,4 +22,16 @@ export const isAdmin = () => {
 export const logout = () => {
     localStorage.removeItem('token');
     window.location.href = '/login';
+};
+
+export const getUserId = () => {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) return null;
+
+        const decoded = jwtDecode(token);
+        return decoded.userId; // ← ini yang benar!
+    } catch {
+        return null;
+    }
 };
