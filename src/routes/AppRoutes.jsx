@@ -5,6 +5,7 @@ import Data from "../pages/data"
 import LoginPage from "../pages/login"
 import RegisterPage from "../pages/register"
 import ProfilePage from "../pages/profile"
+import BookmarkPage from "../pages/bookmarks";
 import { AdminRoute, SuperadminRoute, GuestRoute, ProtectedRoute } from "./AdminRoute";
 import DataUser from "../pages/user"
 import '../App.css'
@@ -58,6 +59,16 @@ const AppRoutes = () => {
                     </ProtectedRoute>
                 }
             />
+
+            <Route
+                path="/bookmarks"
+                element={
+                    <ProtectedRoute>
+                        <BookmarkPage />
+                    </ProtectedRoute>
+                }
+            />
+
         </Routes>
     )
 }

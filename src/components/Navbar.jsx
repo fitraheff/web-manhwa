@@ -37,6 +37,9 @@ const Navbar = () => {
                             <Link className="nav-link" to="/user">Data User</Link>
                         )}
 
+                        {token && (
+                            <Link className="nav-link" to="/bookmarks">Bookmark</Link>
+                        )}
 
                         {/* USER DROPDOWN */}
                         <div className="nav-item dropdown ms-3">
